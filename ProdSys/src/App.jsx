@@ -83,20 +83,24 @@ const App = () => {
   };
 
   // Deletar produto
-  const handleDelete = async () => {
-    try {
-      await axios.put('http://localhost:8080/products/delete', {
+// App.jsx (apenas a parte relevante da função handleDelete)
+const handleDelete = async () => {
+  try {
+    await axios.delete('http://localhost:8080/products/delete', {
+      data: {
         id: selectedProduct.id,
-        ...formData
-      });
-      setOpenDeleteModal(false);
-      setFormData({ name: '', description: '', price: '', amount: '' });
-      fetchProducts();
-    } catch (error) {
-      console.error('Erro ao deletar produto:', error);
-    }
-  };
-
+        name: selectedProduct.name,
+        description: selectedProduct.description,
+        price: selectedProduct.price,
+        amount: selectedProduct.amount
+      }
+    });
+    setOpenDeleteModal(false);
+    fetchProducts();
+  } catch (error) {
+    console.error('Erro ao deletar produto:', error);
+  }
+};
   // Abrir modal de atualização com dados preenchidos
   const handleOpenUpdateModal = (product) => {
     setSelectedProduct(product);
